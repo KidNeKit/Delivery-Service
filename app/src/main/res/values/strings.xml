@@ -8,5 +8,11 @@
     <string name="hello_world">Hello Square World!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="create_offer">Оформить заказ</string>
+    <string name="name_label">Наименование</string>
+    <string name="length_label">Длина</string>
+    <string name="width_label">Ширина</string>
+    <string name="height_label">Высота</string>
+    <string name="weight_label">Вес</string>
 </resources>
