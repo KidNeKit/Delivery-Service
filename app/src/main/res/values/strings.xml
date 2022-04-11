@@ -15,4 +15,5 @@
     <string name="width_label">Ширина</string>
     <string name="height_label">Высота</string>
     <string name="weight_label">Вес</string>
+    <string name="add_item">Добавить</string>
 </resources>
