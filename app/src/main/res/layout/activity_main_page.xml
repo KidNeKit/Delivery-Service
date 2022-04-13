@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,6 +36,8 @@
         android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="50dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
         <TextView
@@ -46,51 +49,143 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <ListView
+            android:id="@+id/current_item_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="25dp">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="30dp"
+            android:dividerHeight="10dp"/>
 
-            <TextView
-                android:id="@+id/name_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:text="@string/name_label"
-                style="@style/label_view"
-                />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/length_label"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/name_label"
-                android:text="@string/length_label"
-                style="@style/label_view"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/width_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/length_label"
-                android:text="@string/width_label"
-                style="@style/label_view"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/name_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="30dp"
+                    android:hint="@string/name_input">
 
-            <TextView
-                android:id="@+id/height_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/width_label"
-                android:text="@string/height_label"
-                style="@style/label_view"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/weight_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/height_label"
-                android:text="@string/weight_label"
-                style="@style/label_view"/>
-        </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:baselineAligned="false"
+                    android:divider="@drawable/linear_layout_children_divider"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/length_input"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="@string/length_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/width_input"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="@string/width_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:baselineAligned="false"
+                    android:divider="@drawable/linear_layout_children_divider"
+                    android:orientation="horizontal"
+                    android:showDividers="middle">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/height_input"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="@string/height_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/weight_input"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:hint="@string/weight_input">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/add_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:text="@string/add_item" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!--        <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Укажите точку отправления">
+                </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Укажите конечную точку">
+                </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Выберите автомобиль для перевозки">
+                </TextView>-->
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
