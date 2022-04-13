@@ -10,10 +10,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="create_offer">Оформить заказ</string>
-    <string name="name_label">Наименование</string>
-    <string name="length_label">Длина</string>
-    <string name="width_label">Ширина</string>
-    <string name="height_label">Высота</string>
-    <string name="weight_label">Вес</string>
+    <string name="name_input">Наименование</string>
+    <string name="length_input">Длина</string>
+    <string name="width_input">Ширина</string>
+    <string name="height_input">Высота</string>
+    <string name="weight_input">Вес</string>
     <string name="add_item">Добавить</string>
 </resources>
