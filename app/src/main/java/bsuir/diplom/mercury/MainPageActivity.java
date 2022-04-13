@@ -2,24 +2,24 @@ package bsuir.diplom.mercury;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
 
 import bsuir.diplom.mercury.adapters.ItemListAdapter;
 import bsuir.diplom.mercury.entities.Item;
+import bsuir.diplom.mercury.utils.Constants;
 
 public class MainPageActivity extends AppCompatActivity {
     private static final ArrayList<Item> currentItemsList = new ArrayList<>();
+    private final DatabaseReference curOfferRef = FirebaseDatabase.getInstance().getReference(Constants.CURRENT_OFFERS_DB.getMessage());
 
     private TextInputLayout nameTextInput;
     private TextInputLayout lengthTextInput;
@@ -50,6 +50,9 @@ public class MainPageActivity extends AppCompatActivity {
 
             Item item = new Item(currentName, Double.valueOf(currentLength), Double.valueOf(currentWidth), Double.valueOf(currentHeight), Double.valueOf(currentWeight));
             currentItemsList.add(item);
+
+            //TODO change the location of adding offer to DB (after payment)
+            curOfferRef.push().setValue(item);
 
             ItemListAdapter adapter = new ItemListAdapter(this, R.layout.single_offer_item, currentItemsList);
             itemListView.setAdapter(adapter);
