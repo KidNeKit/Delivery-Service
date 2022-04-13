@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Выполняемые заказы"
+            android:text="@string/current_offers"
             android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold" />

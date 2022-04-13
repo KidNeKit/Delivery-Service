@@ -16,4 +16,5 @@
     <string name="height_input">Высота</string>
     <string name="weight_input">Вес</string>
     <string name="add_item">Добавить</string>
+    <string name="current_offers">Текущие заказы</string>
 </resources>
