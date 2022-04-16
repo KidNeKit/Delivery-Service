@@ -17,4 +17,7 @@
     <string name="weight_input">Вес</string>
     <string name="add_item">Добавить</string>
     <string name="current_offers">Текущие заказы</string>
+    <string name="completed">Выполнены</string>
+    <string name="in_processing">Обрабатываются</string>
+    <string name="in_progress">Доставляются</string>
 </resources>
