@@ -5,20 +5,30 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import bsuir.diplom.mercury.adapters.ItemListAdapter;
+import bsuir.diplom.mercury.adapters.OfferListAdapter;
 import bsuir.diplom.mercury.entities.Item;
+import bsuir.diplom.mercury.entities.Offer;
 import bsuir.diplom.mercury.utils.Constants;
 
 public class MainPageActivity extends AppCompatActivity {
-    private static final ArrayList<Item> currentItemsList = new ArrayList<>();
+    private final ArrayList<Item> currentItemsList = new ArrayList<>();
+    private final List<Offer> offerList = new ArrayList<>();
     private final DatabaseReference curOfferRef = FirebaseDatabase.getInstance().getReference(Constants.CURRENT_OFFERS_DB.getMessage());
 
     private TextInputLayout nameTextInput;
@@ -38,6 +48,27 @@ public class MainPageActivity extends AppCompatActivity {
         heightTextInput = findViewById(R.id.height_input);
         weightTextInput = findViewById(R.id.weight_input);
 
+        ListView currentOffersListView = findViewById(R.id.current_offers_list);
+        currentOffersListView.setEnabled(false);
+        OfferListAdapter offerAdapter = new OfferListAdapter(this, R.layout.single_offer_item, offerList);
+        currentOffersListView.setAdapter(offerAdapter);
+
+        curOfferRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Offer offer = snap.getValue(Offer.class);
+                    offerList.add(offer);
+                }
+                offerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         ListView itemListView = findViewById(R.id.current_item_list);
 
         Button addItemButton = findViewById(R.id.add_item);
@@ -52,7 +83,7 @@ public class MainPageActivity extends AppCompatActivity {
             currentItemsList.add(item);
 
             //TODO change the location of adding offer to DB (after payment)
-            curOfferRef.push().setValue(item);
+            curOfferRef.push().setValue(new Offer(item));
 
             ItemListAdapter adapter = new ItemListAdapter(this, R.layout.single_offer_item, currentItemsList);
             itemListView.setAdapter(adapter);
