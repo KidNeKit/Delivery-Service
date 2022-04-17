@@ -41,108 +41,11 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name_input"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/offer_creation_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="@string/name_input">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
-            android:baselineAligned="false"
-            android:divider="@drawable/linear_layout_children_divider"
-            android:orientation="horizontal"
-            android:showDividers="middle">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/length_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/length_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/width_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/width_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginBottom="30dp"
-            android:baselineAligned="false"
-            android:divider="@drawable/linear_layout_children_divider"
-            android:orientation="horizontal"
-            android:showDividers="middle">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/height_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/height_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/weight_input"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:hint="@string/weight_input">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/add_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:text="@string/add_item" />
+            android:layout_height="300dp"
+            android:orientation="horizontal" />
 
         <RelativeLayout
             android:layout_width="match_parent"
