@@ -14,6 +14,8 @@ public class Offer {
     private Double weight;
     private OfferStatus offerStatus;
     private Long date;
+    private String addressFrom;
+    private String addressTo;
 
     public Offer() {
     }
@@ -90,6 +92,14 @@ public class Offer {
         this.id = id;
     }
 
+    public String getAddressFrom() {
+        return addressFrom;
+    }
+
+    public String getAddressTo() {
+        return addressTo;
+    }
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -101,6 +111,8 @@ public class Offer {
                 ", weight=" + weight +
                 ", offerStatus=" + offerStatus +
                 ", date=" + new Timestamp(date) +
+                ", addressFrom=" + addressFrom +
+                ", addressTo=" + addressTo +
                 '}';
     }
 }
