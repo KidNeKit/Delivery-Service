@@ -15,8 +15,9 @@ import java.util.ArrayList;
 
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.Item;
+import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
 
-public class AddNewItemFragment extends Fragment {
+public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLifecycle {
     private final ArrayList<Item> currentItemsList = new ArrayList<>();
 
     private TextInputLayout nameTextInput;
@@ -65,5 +66,15 @@ public class AddNewItemFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onPauseFragment() {
+        Log.d("lifecycle", "onPauseFragment for AddNewItemFragment");
+    }
+
+    @Override
+    public void onResumeFragment() {
+        Log.d("lifecycle", "onResumeFragment for AddNewItemFragment");
     }
 }
