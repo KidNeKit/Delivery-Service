@@ -41,34 +41,42 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/offer_creation_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="horizontal" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="30dp"
-            android:paddingBottom="20dp">
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/previous_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/ic_baseline_arrow_back_24" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/offer_creation_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_weight="1"/>
 
-            <ImageButton
-                android:id="@+id/next_button"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/ic_baseline_arrow_forward_24" />
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:paddingBottom="20dp"
+                android:layout_weight="4">
+
+                <ImageButton
+                    android:id="@+id/previous_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_baseline_arrow_back_24" />
+
+                <ImageButton
+                    android:id="@+id/next_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/ic_baseline_arrow_forward_24" />
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

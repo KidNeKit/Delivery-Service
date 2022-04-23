@@ -1,8 +1,10 @@
 package bsuir.diplom.mercury.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +24,9 @@ import bsuir.diplom.mercury.entities.Item;
 
 public class MapFragment extends Fragment {
 
+    private ImageButton nextFragmentButton;
+    private ImageButton previousFragmentButton;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,10 +36,13 @@ public class MapFragment extends Fragment {
         OfferCreationViewPager offerCreationViewPagerAdapter = new OfferCreationViewPager(getParentFragmentManager());
         viewPager.setAdapter(offerCreationViewPagerAdapter);
         viewPager.setCurrentItem(0);
+        //todo disable view pager swiping (maybe by using ViewPager2)
+        //todo implementing dots
 
-        ImageButton nextFragmentButton = view.findViewById(R.id.next_button);
-        ImageButton previousFragmentButton = view.findViewById(R.id.previous_button);
+        nextFragmentButton = view.findViewById(R.id.next_button);
+        previousFragmentButton = view.findViewById(R.id.previous_button);
 
+        //todo remake rendering when swiping
         nextFragmentButton.setOnClickListener(nextListener -> {
             int currentItem = viewPager.getCurrentItem();
             if (currentItem != viewPager.getChildCount()) {
