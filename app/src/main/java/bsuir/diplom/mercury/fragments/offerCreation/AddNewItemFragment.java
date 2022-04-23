@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.Item;
 import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
+import bsuir.diplom.mercury.utils.Constants;
 
 public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLifecycle {
     private final ArrayList<Item> currentItemsList = new ArrayList<>();
@@ -37,14 +38,6 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
         heightTextInput = view.findViewById(R.id.height_input);
         weightTextInput = view.findViewById(R.id.weight_input);
 
-        /*ListView currentOffersListView = findViewById(R.id.current_offers_list);
-        currentOffersListView.setEnabled(false);
-        OfferListAdapter offerAdapter = new OfferListAdapter(this, R.layout.single_offer_item, offerList);
-        currentOffersListView.setAdapter(offerAdapter);
-
-
-        ListView itemListView = findViewById(R.id.current_item_list);*/
-
         Button addItemButton = view.findViewById(R.id.add_item);
         addItemButton.setOnClickListener(view1 -> {
             String currentName = nameTextInput.getEditText().getText().toString();
@@ -56,11 +49,9 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
             Item item = new Item(currentName, Double.valueOf(currentLength), Double.valueOf(currentWidth), Double.valueOf(currentHeight), Double.valueOf(currentWeight));
             currentItemsList.add(item);
 
-            //TODO change the location of adding offer to DB (after payment)
-            //curOfferRef.push().setValue(new Offer(item));
-
-            //ItemListAdapter adapter = new ItemListAdapter(this, R.layout.single_offer_item, currentItemsList);
-            //itemListView.setAdapter(adapter);
+            Bundle result = new Bundle();
+            result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), true);
+            getParentFragmentManager().setFragmentResult(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), result);
 
             Log.d("Current items list: ", currentItemsList.toString());
         });
@@ -76,5 +67,10 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
     @Override
     public void onResumeFragment() {
         Log.d("lifecycle", "onResumeFragment for AddNewItemFragment");
+        //todo error fix associated with fragment manager
+        /*Bundle result = new Bundle();
+        result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), currentItemsList.size() > 0);
+        result.putBoolean(Constants.IS_ALLOWED_PREV.getMessage(), false);
+        getParentFragmentManager().setFragmentResult(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), result);*/
     }
 }

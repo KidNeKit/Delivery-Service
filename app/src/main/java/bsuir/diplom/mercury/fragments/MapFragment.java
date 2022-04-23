@@ -13,10 +13,14 @@ import androidx.viewpager.widget.ViewPager;
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.adapters.OfferCreationViewPager;
 import bsuir.diplom.mercury.listeners.ViewPagerItemChangeListener;
+import bsuir.diplom.mercury.utils.Constants;
 
 public class MapFragment extends Fragment {
     public final static int NEXT_FRAGMENT_BUTTON_ID = R.id.next_button;
     public final static int PREVIOUS_FRAGMENT_BUTTON_ID = R.id.previous_button;
+
+    private boolean isAllowedNext;
+    private boolean isAllowedPrev;
 
     private ImageButton nextFragmentButton;
     private ImageButton previousFragmentButton;
@@ -37,6 +41,25 @@ public class MapFragment extends Fragment {
         nextFragmentButton = view.findViewById(R.id.next_button);
         previousFragmentButton = view.findViewById(R.id.previous_button);
         disableAllButtons();
+
+        getParentFragmentManager().setFragmentResultListener(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
+            if (bundle.containsKey(Constants.IS_ALLOWED_NEXT.getMessage())) {
+                isAllowedNext = bundle.getBoolean(Constants.IS_ALLOWED_NEXT.getMessage());
+                if (isAllowedNext) {
+                    enableButton(NEXT_FRAGMENT_BUTTON_ID);
+                } else {
+                    disableButton(NEXT_FRAGMENT_BUTTON_ID);
+                }
+            }
+            if (bundle.containsKey(Constants.IS_ALLOWED_PREV.getMessage())) {
+                isAllowedPrev = bundle.getBoolean(Constants.IS_ALLOWED_PREV.getMessage());
+                if (isAllowedPrev) {
+                    enableButton(PREVIOUS_FRAGMENT_BUTTON_ID);
+                } else {
+                    disableButton(PREVIOUS_FRAGMENT_BUTTON_ID);
+                }
+            }
+        });
 
         //todo remake rendering when swiping
         nextFragmentButton.setOnClickListener(nextListener -> {
