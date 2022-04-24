@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.Item;
@@ -20,7 +21,7 @@ public class ItemListAdapter extends ArrayAdapter<Item> {
     private final Context context;
     private final int resource;
 
-    public ItemListAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Item> objects) {
+    public ItemListAdapter(@NonNull Context context, int resource, @NonNull List<Item> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;

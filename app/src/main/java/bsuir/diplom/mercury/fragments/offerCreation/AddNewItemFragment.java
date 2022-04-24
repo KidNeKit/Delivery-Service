@@ -61,8 +61,6 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
             Bundle result = new Bundle();
             result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), true);
             getParentFragmentManager().setFragmentResult(Constants.BUTTON_SWITCH_BEHAVIOR_REQUEST_KEY.getMessage(), result);
-
-            Log.d("Current items list: ", currentItemsList.toString());
         });
 
         return view;
