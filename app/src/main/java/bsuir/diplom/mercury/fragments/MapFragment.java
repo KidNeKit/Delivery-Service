@@ -34,15 +34,30 @@ public class MapFragment extends Fragment {
         OfferCreationViewPager offerCreationViewPagerAdapter = new OfferCreationViewPager(getParentFragmentManager());
         viewPager.setAdapter(offerCreationViewPagerAdapter);
         viewPager.setCurrentItem(0);
-        viewPager.addOnPageChangeListener(new ViewPagerItemChangeListener(offerCreationViewPagerAdapter));
+        viewPager.addOnPageChangeListener(new ViewPagerItemChangeListener(offerCreationViewPagerAdapter, getParentFragmentManager()));
         //todo disable view pager swiping (maybe by using ViewPager2)
         //todo implementing dots
 
         nextFragmentButton = view.findViewById(R.id.next_button);
         previousFragmentButton = view.findViewById(R.id.previous_button);
-        disableAllButtons();
 
-        getParentFragmentManager().setFragmentResultListener(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
+        disableAllButtons();
+        setButtonSwitchResultListener();
+
+        nextFragmentButton.setOnClickListener(nextListener -> {
+            int currentItem = viewPager.getCurrentItem();
+            viewPager.setCurrentItem(++currentItem);
+        });
+
+        previousFragmentButton.setOnClickListener(prev -> {
+            int currentItem = viewPager.getCurrentItem();
+            viewPager.setCurrentItem(--currentItem);
+        });
+        return view;
+    }
+
+    private void setButtonSwitchResultListener() {
+        getParentFragmentManager().setFragmentResultListener(Constants.BUTTON_SWITCH_BEHAVIOR_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
             if (bundle.containsKey(Constants.IS_ALLOWED_NEXT.getMessage())) {
                 isAllowedNext = bundle.getBoolean(Constants.IS_ALLOWED_NEXT.getMessage());
                 if (isAllowedNext) {
@@ -60,26 +75,6 @@ public class MapFragment extends Fragment {
                 }
             }
         });
-
-        //todo remake rendering when swiping
-        nextFragmentButton.setOnClickListener(nextListener -> {
-            int currentItem = viewPager.getCurrentItem();
-            if (currentItem != viewPager.getChildCount()) {
-                viewPager.setCurrentItem(++currentItem);
-            } else {
-                Log.d("offer view pager", "it is last fragment");
-            }
-        });
-
-        previousFragmentButton.setOnClickListener(prev -> {
-            int currentItem = viewPager.getCurrentItem();
-            if (currentItem != 0) {
-                viewPager.setCurrentItem(--currentItem);
-            } else {
-                Log.d("offer view pager", "it is first fragment");
-            }
-        });
-        return view;
     }
 
     public void enableButton(int buttonId) {

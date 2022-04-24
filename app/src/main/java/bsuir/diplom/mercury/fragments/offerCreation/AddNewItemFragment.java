@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -20,12 +21,20 @@ import bsuir.diplom.mercury.utils.Constants;
 
 public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLifecycle {
     private final ArrayList<Item> currentItemsList = new ArrayList<>();
+    private static AddNewItemFragment instance = null;
 
     private TextInputLayout nameTextInput;
     private TextInputLayout lengthTextInput;
     private TextInputLayout widthTextInput;
     private TextInputLayout heightTextInput;
     private TextInputLayout weightTextInput;
+
+    public static AddNewItemFragment getInstance() {
+        if (instance == null) {
+            instance = new AddNewItemFragment();
+        }
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +60,7 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
 
             Bundle result = new Bundle();
             result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), true);
-            getParentFragmentManager().setFragmentResult(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), result);
+            getParentFragmentManager().setFragmentResult(Constants.BUTTON_SWITCH_BEHAVIOR_REQUEST_KEY.getMessage(), result);
 
             Log.d("Current items list: ", currentItemsList.toString());
         });
@@ -60,17 +69,19 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
     }
 
     @Override
-    public void onPauseFragment() {
+    public void onPauseFragment(FragmentManager parentFragmentManager) {
         Log.d("lifecycle", "onPauseFragment for AddNewItemFragment");
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.CURRENT_ITEMS_LIST.getMessage(), currentItemsList);
+        parentFragmentManager.setFragmentResult(Constants.VIEWPAGER_FRAGMENTS_DATA_TRANSFER_REQUEST_KEY.getMessage(), bundle);
     }
 
     @Override
-    public void onResumeFragment() {
+    public void onResumeFragment(FragmentManager parentFragmentManager) {
         Log.d("lifecycle", "onResumeFragment for AddNewItemFragment");
-        //todo error fix associated with fragment manager
-        /*Bundle result = new Bundle();
+        Bundle result = new Bundle();
         result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), currentItemsList.size() > 0);
         result.putBoolean(Constants.IS_ALLOWED_PREV.getMessage(), false);
-        getParentFragmentManager().setFragmentResult(Constants.FRAGMENT_DATA_TRANSFER_REQUEST_KEY.getMessage(), result);*/
+        parentFragmentManager.setFragmentResult(Constants.BUTTON_SWITCH_BEHAVIOR_REQUEST_KEY.getMessage(), result);
     }
 }

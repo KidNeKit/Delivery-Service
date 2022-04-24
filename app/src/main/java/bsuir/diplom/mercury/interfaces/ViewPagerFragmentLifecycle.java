@@ -1,7 +1,9 @@
 package bsuir.diplom.mercury.interfaces;
 
-public interface ViewPagerFragmentLifecycle {
-    void onPauseFragment();
+import androidx.fragment.app.FragmentManager;
 
-    void onResumeFragment();
+public interface ViewPagerFragmentLifecycle {
+    void onPauseFragment(FragmentManager parentFragmentManager);
+
+    void onResumeFragment(FragmentManager parentFragmentManager);
 }

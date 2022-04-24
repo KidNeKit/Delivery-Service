@@ -9,7 +9,6 @@ import bsuir.diplom.mercury.fragments.offerCreation.AddNewItemFragment;
 import bsuir.diplom.mercury.fragments.offerCreation.ChangeAddedItemFragment;
 import bsuir.diplom.mercury.fragments.offerCreation.DestinationPointsFragment;
 
-@SuppressWarnings("ConstantConditions")
 public class OfferCreationViewPager extends FragmentPagerAdapter {
 
     public OfferCreationViewPager(@NonNull FragmentManager fm) {
@@ -21,11 +20,11 @@ public class OfferCreationViewPager extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new AddNewItemFragment();
+                return AddNewItemFragment.getInstance();
             case 1:
-                return new ChangeAddedItemFragment();
+                return ChangeAddedItemFragment.getInstance();
             case 2:
-                return new DestinationPointsFragment();
+                return DestinationPointsFragment.getInstance();
         }
         return null;
     }
