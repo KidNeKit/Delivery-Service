@@ -68,4 +68,21 @@ public class ChangeAddedItemFragment extends Fragment implements ViewPagerFragme
             currentItemsList.addAll(bundle.getParcelableArrayList(Constants.CURRENT_ITEMS_LIST.getMessage()));
         });
     }
+
+    public void deleteItemFromList(int position) {
+        Log.d(Constants.ITEM_LIST_CHANGE_LOGGING.getMessage(), "Deleting item " + currentItemsList.get(position).getName());
+        currentItemsList.remove(position);
+        itemListAdapter.notifyDataSetChanged();
+    }
+
+    public void editItemFromList(int position) {
+        Log.d(Constants.ITEM_LIST_CHANGE_LOGGING.getMessage(), "Editing item " + currentItemsList.get(position).getName());
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.EDITABLE_ITEM_POSITION.getMessage(), position);
+        getParentFragmentManager().setFragmentResult(Constants.EDITABLE_ITEM_POSITION_REQUEST_KEY.getMessage(), bundle);
+
+        Bundle pageChangeBundle = new Bundle();
+        pageChangeBundle.putBoolean(Constants.SET_PREVIOUS_PAGE.getMessage(), true);
+        getParentFragmentManager().setFragmentResult(Constants.CHANGE_VIEW_PAGER_SELECTED_PAGE_REQUEST_KEY.getMessage(), pageChangeBundle);
+    }
 }

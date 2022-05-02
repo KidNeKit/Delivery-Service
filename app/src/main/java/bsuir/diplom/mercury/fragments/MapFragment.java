@@ -24,13 +24,14 @@ public class MapFragment extends Fragment {
 
     private ImageButton nextFragmentButton;
     private ImageButton previousFragmentButton;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
 
-        ViewPager viewPager = view.findViewById(R.id.offer_creation_view_pager);
+        viewPager = view.findViewById(R.id.offer_creation_view_pager);
         OfferCreationViewPager offerCreationViewPagerAdapter = new OfferCreationViewPager(getParentFragmentManager());
         viewPager.setAdapter(offerCreationViewPagerAdapter);
         viewPager.setCurrentItem(0);
@@ -73,6 +74,15 @@ public class MapFragment extends Fragment {
                 } else {
                     disableButton(PREVIOUS_FRAGMENT_BUTTON_ID);
                 }
+            }
+        });
+        getParentFragmentManager().setFragmentResultListener(Constants.CHANGE_VIEW_PAGER_SELECTED_PAGE_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
+            if (bundle.containsKey(Constants.SET_PREVIOUS_PAGE.getMessage())) {
+                int currentItem = viewPager.getCurrentItem();
+                viewPager.setCurrentItem(--currentItem);
+            } else if (bundle.containsKey(Constants.SET_NEXT_PAGE.getMessage())) {
+                int currentItem = viewPager.getCurrentItem();
+                viewPager.setCurrentItem(++currentItem);
             }
         });
     }
