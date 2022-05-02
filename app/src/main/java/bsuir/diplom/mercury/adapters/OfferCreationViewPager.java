@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import bsuir.diplom.mercury.fragments.offerCreation.AddNewItemFragment;
 import bsuir.diplom.mercury.fragments.offerCreation.ChangeAddedItemFragment;
 import bsuir.diplom.mercury.fragments.offerCreation.DestinationPointsFragment;
+import bsuir.diplom.mercury.fragments.offerCreation.PersonalChoosingFragment;
 
 public class OfferCreationViewPager extends FragmentPagerAdapter {
 
@@ -24,6 +25,8 @@ public class OfferCreationViewPager extends FragmentPagerAdapter {
             case 1:
                 return ChangeAddedItemFragment.getInstance();
             case 2:
+                return PersonalChoosingFragment.getInstance();
+            case 3:
                 return DestinationPointsFragment.getInstance();
         }
         return null;
@@ -31,6 +34,6 @@ public class OfferCreationViewPager extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 }
