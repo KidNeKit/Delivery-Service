@@ -20,7 +20,7 @@ import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
 import bsuir.diplom.mercury.utils.Constants;
 
 public class ChangeAddedItemFragment extends Fragment implements ViewPagerFragmentLifecycle {
-    private final List<Item> currentItemsList = new ArrayList<>();
+    private final ArrayList<Item> currentItemsList = new ArrayList<>();
     private static ChangeAddedItemFragment instance;
     private ItemListAdapter itemListAdapter;
 
@@ -73,6 +73,10 @@ public class ChangeAddedItemFragment extends Fragment implements ViewPagerFragme
         Log.d(Constants.ITEM_LIST_CHANGE_LOGGING.getMessage(), "Deleting item " + currentItemsList.get(position).getName());
         currentItemsList.remove(position);
         itemListAdapter.notifyDataSetChanged();
+
+        Bundle result = new Bundle();
+        result.putBoolean(Constants.IS_ALLOWED_NEXT.getMessage(), currentItemsList.size() > 0);
+        getParentFragmentManager().setFragmentResult(Constants.BUTTON_SWITCH_BEHAVIOR_REQUEST_KEY.getMessage(), result);
     }
 
     public void editItemFromList(int position) {
