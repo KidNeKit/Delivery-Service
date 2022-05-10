@@ -69,4 +69,9 @@
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/staff_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>
