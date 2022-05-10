@@ -32,7 +32,7 @@ public class Staff {
 
     public static List<Staff> staffInitList = Arrays.asList(
             new Staff(1, "Никита", "Меньшиков", Profession.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(2, "Алексей", "Дубаневич", Profession.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
+            new Staff(2, "Алексей", "Дубаневич", Profession.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.alexey, 0, 0, 0.0),
             new Staff(3, "Владислав", "Павлов", Profession.DRIVER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
             new Staff(4, "Роман", "Мосевич", Profession.LOADER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
             new Staff(5, "Иван", "Моисеенко", Profession.DRIVER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0)

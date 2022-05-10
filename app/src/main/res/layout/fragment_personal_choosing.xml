@@ -65,13 +65,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/loader_seek_bar"
-            android:max="3"
+            android:max="2"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/staff_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"/>
 
 </LinearLayout>
