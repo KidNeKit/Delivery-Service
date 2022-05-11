@@ -103,9 +103,5 @@ public class AddNewItemFragment extends Fragment implements ViewPagerFragmentLif
                 Objects.requireNonNull(weightTextInput.getEditText()).setText(String.valueOf(editableItem.getWeight()));
             }
         });
-        getParentFragmentManager().setFragmentResultListener(Constants.VIEWPAGER_FRAGMENTS_DATA_TRANSFER_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
-            currentItemsList.clear();
-            currentItemsList.addAll(bundle.getParcelableArrayList(Constants.CURRENT_ITEMS_LIST.getMessage()));
-        });
     }
 }
