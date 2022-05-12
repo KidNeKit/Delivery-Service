@@ -20,4 +20,5 @@
     <string name="completed">Выполнены</string>
     <string name="in_processing">Обрабатываются</string>
     <string name="in_progress">Доставляются</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 </resources>
