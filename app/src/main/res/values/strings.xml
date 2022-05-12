@@ -21,4 +21,20 @@
     <string name="in_processing">Обрабатываются</string>
     <string name="in_progress">Доставляются</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+
+    <!--Registration page-->
+    <string name="registration_welcome">Добро пожаловать!</string>
+    <string name="registration_intro_description">Зарегистрируйтесь, чтобы воспользоваться приложением</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="registration_button">Зарегистрироваться</string>
+    <string name="switch_to_login_button">Уже имеете аккаунт? Авторизуйтесь</string>
+
+    <!--Login page-->
+    <string name="login_welcome">Привет, рады снова видеть!</string>
+    <string name="login_intro_description">Авторизуйтесь, чтобы продолжить</string>
+    <string name="login_button">Авторизоваться</string>
+    <string name="switch_to_registration_button">Новый пользователь? Зарегистрируйтесь</string>
+    <string name="login_send_code">Отправить код</string>
 </resources>
