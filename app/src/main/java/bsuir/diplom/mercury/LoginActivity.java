@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import bsuir.diplom.mercury.entities.Staff;
 import bsuir.diplom.mercury.entities.User;
+import bsuir.diplom.mercury.entities.enums.Role;
 
 @SuppressLint("ShowToast")
 public class LoginActivity extends AppCompatActivity {
@@ -139,10 +140,23 @@ public class LoginActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         Log.d("RegistrationActivity", "signInWithCredential:success");
                         FirebaseUser firebaseUser = task.getResult().getUser();
+                        usersReference.child(Objects.requireNonNull(firebaseUser.getPhoneNumber())).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                User user = snapshot.getValue(User.class);
+                                if (Role.DRIVER.equals(user.getRole())) {
+                                    startActivity(new Intent(LoginActivity.this, DriverMainActivity.class));
+                                } else {
+                                    startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+                                }
+                                finishAffinity();
+                            }
 
-                        Toast.makeText(this, "Авторизация прошла успешно", Toast.LENGTH_SHORT);
-                        startActivity(new Intent(this, MainPageActivity.class));
-                        finishAffinity();
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     } else {
                         Log.e("RegistrationActivity", "signInWithCredential:failure", task.getException());
                         if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {

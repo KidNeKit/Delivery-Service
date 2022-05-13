@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bsuir.diplom.mercury.BuildConfig;
 import bsuir.diplom.mercury.entities.enums.Role;
 
 public class User {
@@ -24,7 +25,7 @@ public class User {
     private Role role;
 
     public static List<User> driverUserInitList = Collections.singletonList(
-            new User("Enter your phone number here", "Меньшиков", "Никита", Role.DRIVER)
+            new User(BuildConfig.DRIVER_PHONE_NUMBER, "Меньшиков", "Никита", Role.DRIVER)
     );
 
     public User(String phoneNumber, String surname, String name) {
