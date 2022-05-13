@@ -3,14 +3,18 @@ package bsuir.diplom.mercury;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hbb20.CountryCodePicker;
 
 import java.util.Objects;
 
+import bsuir.diplom.mercury.entities.User;
 import bsuir.diplom.mercury.utils.Utils;
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -22,6 +26,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private String fullNumber;
     private String surname;
     private String name;
+
+    private final DatabaseReference usersReference = FirebaseDatabase.getInstance().getReference("Users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +41,15 @@ public class RegistrationActivity extends AppCompatActivity {
         Button registrationButton = findViewById(R.id.registration_button);
         Button toLoginButton = findViewById(R.id.go_to_login_activity_button);
 
-        toLoginButton.setOnClickListener(view -> startActivity(new Intent(this, LoginActivity.class)));
+        toLoginButton.setOnClickListener(view -> {
+            startActivity(new Intent(this, LoginActivity.class));
+            finishAffinity();
+        });
 
         registrationButton.setOnClickListener(view -> {
             if (isAllFieldsValid()) {
-                startActivity(getIntentWithRegistrationExtras());
+                User user = new User(fullNumber, surname, name);
+                usersReference.child(fullNumber).setValue(user).addOnCompleteListener(task -> Toast.makeText(this, "Регистрация прошла успешно", Toast.LENGTH_SHORT));
             }
         });
     }
@@ -63,14 +73,6 @@ public class RegistrationActivity extends AppCompatActivity {
         return nameInput.getError() == null
                 && surnameInput.getError() == null
                 && phoneInput.getError() == null;
-    }
-
-    private Intent getIntentWithRegistrationExtras() {
-        Intent intent = new Intent(this, VerificationActivity.class);
-        intent.putExtra("phoneNumber", fullNumber);
-        intent.putExtra("surname", surname);
-        intent.putExtra("name", name);
-        return intent;
     }
 
     /*private void validateUniquePhoneNumber() {
