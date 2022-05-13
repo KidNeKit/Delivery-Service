@@ -29,6 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import bsuir.diplom.mercury.entities.Staff;
+import bsuir.diplom.mercury.entities.User;
+
 @SuppressLint("ShowToast")
 public class LoginActivity extends AppCompatActivity {
     private TextInputLayout phoneInput;
@@ -51,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
         Button sendCodeButton = findViewById(R.id.login_send_code);
         Button loginButton = findViewById(R.id.login_button);
         Button toRegistrationButton = findViewById(R.id.to_registration_button);
+
+        Staff.insertStaffData();
+        User.insertUserDriversAccounts();
 
         sendCodeButton.setOnClickListener(view -> {
             phoneNumber = Objects.requireNonNull(phoneInput.getEditText()).getText().toString();

@@ -1,12 +1,13 @@
 package bsuir.diplom.mercury.entities.enums;
 
-public enum Profession {
+public enum Role {
     DRIVER("Водитель"),
-    LOADER("Грузчик");
+    LOADER("Грузчик"),
+    USER("Пользователь");
 
     private final String text;
 
-    Profession(String text) {
+    Role(String text) {
         this.text = text;
     }
 

@@ -30,7 +30,7 @@ import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.adapters.StaffRecyclerViewAdapter;
 import bsuir.diplom.mercury.entities.Staff;
 import bsuir.diplom.mercury.entities.enums.Car;
-import bsuir.diplom.mercury.entities.enums.Profession;
+import bsuir.diplom.mercury.entities.enums.Role;
 import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
 
 public class PersonalChoosingFragment extends Fragment implements ViewPagerFragmentLifecycle {
@@ -57,7 +57,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (fromUser) {
                 staffList.removeAll(staffList.stream()
-                        .filter(staff -> Profession.LOADER.equals(staff.getProfession()))
+                        .filter(staff -> Role.LOADER.equals(staff.getProfession()))
                         .collect(Collectors.toList()));
                 if (selectedCar != null) {
                     loadLoadersForSelectedCar();
@@ -91,7 +91,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
             selectedCar = lightWeightCarButton.getId() == checkedId ? Car.LIGHT_WEIGHT : Car.MEDIUM_WEIGHT;
 
             int loadersCount = (int) Staff.staffInitList.stream()
-                    .filter(staff -> selectedCar.equals(staff.getCar()) && Profession.LOADER.equals(staff.getProfession()))
+                    .filter(staff -> selectedCar.equals(staff.getCar()) && Role.LOADER.equals(staff.getProfession()))
                     .count();
             loaderSeekBar.setMax(loadersCount);
 
@@ -119,7 +119,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
     }
 
     private void loadDriverForSelectedCar() {
-        referenceStaff.orderByChild("profession").equalTo(Profession.DRIVER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceStaff.orderByChild("profession").equalTo(Role.DRIVER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot snap : snapshot.getChildren()) {
@@ -139,7 +139,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
     }
 
     private void loadLoadersForSelectedCar() {
-        referenceStaff.orderByChild("profession").equalTo(Profession.LOADER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceStaff.orderByChild("profession").equalTo(Role.LOADER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Staff> loadersList = new ArrayList<>();
