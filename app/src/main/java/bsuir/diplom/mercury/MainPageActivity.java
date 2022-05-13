@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import bsuir.diplom.mercury.adapters.ViewPagerAdapter;
-import bsuir.diplom.mercury.entities.Staff;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -16,8 +15,6 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-
-        Staff.insertStaffData();
 
         ViewPager viewPager = findViewById(R.id.main_view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
