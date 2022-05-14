@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bsuir.diplom.mercury.BuildConfig;
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.enums.Car;
 import bsuir.diplom.mercury.entities.enums.Role;
@@ -23,6 +24,7 @@ public class Staff {
     private Integer id;
     private String name;
     private String surname;
+    private String phoneNumber;
     private Role profession;
     private Car car;
     private Integer photoImageResource;
@@ -31,17 +33,18 @@ public class Staff {
     private Double rating;
 
     public static List<Staff> staffInitList = Arrays.asList(
-            new Staff(1, "Никита", "Меньшиков", Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(2, "Алексей", "Дубаневич", Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.alexey, 0, 0, 0.0),
-            new Staff(3, "Владислав", "Павлов", Role.DRIVER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(4, "Роман", "Мосевич", Role.LOADER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(5, "Иван", "Моисеенко", Role.DRIVER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0)
+            new Staff(1, "Никита", "Меньшиков", BuildConfig.DRIVER_PHONE_NUMBER, Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
+            new Staff(2, "Алексей", "Дубаневич", "", Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.alexey, 0, 0, 0.0),
+            new Staff(3, "Владислав", "Павлов", "", Role.DRIVER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
+            new Staff(4, "Роман", "Мосевич", "", Role.LOADER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
+            new Staff(5, "Иван", "Моисеенко", "", Role.DRIVER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0)
     );
 
-    public Staff(Integer id, String name, String surname, Role profession, Car car, Integer photoImageResource, Integer offerCount, Integer commentCount, Double rating) {
+    public Staff(Integer id, String name, String surname, String phoneNumber, Role profession, Car car, Integer photoImageResource, Integer offerCount, Integer commentCount, Double rating) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.phoneNumber = phoneNumber;
         this.profession = profession;
         this.car = car;
         this.photoImageResource = photoImageResource;
@@ -99,6 +102,14 @@ public class Staff {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public Role getProfession() {

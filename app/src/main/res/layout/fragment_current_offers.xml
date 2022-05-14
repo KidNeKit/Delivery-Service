@@ -4,14 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/driver_view_pager_tabs"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Новые заказы"
+        style="@style/offer_status"
+        android:layout_marginTop="10dp"
+        android:gravity="center"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/driver_main_view_pager"
+    <ListView
+        android:id="@+id/in_progress_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" />
+        android:layout_height="wrap_content"/>
 </LinearLayout>
