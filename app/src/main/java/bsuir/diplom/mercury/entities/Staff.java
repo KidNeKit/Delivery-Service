@@ -1,23 +1,5 @@
 package bsuir.diplom.mercury.entities;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import bsuir.diplom.mercury.BuildConfig;
-import bsuir.diplom.mercury.R;
-import bsuir.diplom.mercury.entities.enums.Car;
 import bsuir.diplom.mercury.entities.enums.Role;
 
 public class Staff {
@@ -26,27 +8,17 @@ public class Staff {
     private String surname;
     private String phoneNumber;
     private Role profession;
-    private Car car;
     private Integer photoImageResource;
     private Integer offerCount;
     private Integer commentCount;
     private Double rating;
 
-    public static List<Staff> staffInitList = Arrays.asList(
-            new Staff(1, "Никита", "Меньшиков", BuildConfig.DRIVER_PHONE_NUMBER, Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(2, "Алексей", "Дубаневич", "", Role.LOADER, Car.MEDIUM_WEIGHT, R.mipmap.alexey, 0, 0, 0.0),
-            new Staff(3, "Владислав", "Павлов", "", Role.DRIVER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(4, "Роман", "Мосевич", "", Role.LOADER, Car.LIGHT_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0),
-            new Staff(5, "Иван", "Моисеенко", "", Role.DRIVER, Car.MEDIUM_WEIGHT, R.mipmap.ic_launcher, 0, 0, 0.0)
-    );
-
-    public Staff(Integer id, String name, String surname, String phoneNumber, Role profession, Car car, Integer photoImageResource, Integer offerCount, Integer commentCount, Double rating) {
+    public Staff(Integer id, String name, String surname, String phoneNumber, Role profession, Integer photoImageResource, Integer offerCount, Integer commentCount, Double rating) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
         this.profession = profession;
-        this.car = car;
         this.photoImageResource = photoImageResource;
         this.offerCount = offerCount;
         this.commentCount = commentCount;
@@ -54,30 +26,6 @@ public class Staff {
     }
 
     public Staff() {
-    }
-
-    public static void insertStaffData() {
-        DatabaseReference staffReference = FirebaseDatabase.getInstance().getReference("Staff");
-        staffReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Staff> createdStaffList = new ArrayList<>();
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    createdStaffList.add(snap.getValue(Staff.class));
-                }
-                List<Integer> createdStaffIdList = createdStaffList.stream().map(Staff::getId).collect(Collectors.toList());
-                staffInitList.forEach(staff -> {
-                    if (!createdStaffIdList.contains(staff.getId())) {
-                        staffReference.child(staff.getId().toString()).setValue(staff);
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Staff", "Cannot initialize basic staff");
-            }
-        });
     }
 
     public Integer getId() {
@@ -118,14 +66,6 @@ public class Staff {
 
     public void setProfession(Role profession) {
         this.profession = profession;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
     }
 
     public Integer getPhotoImageResource() {

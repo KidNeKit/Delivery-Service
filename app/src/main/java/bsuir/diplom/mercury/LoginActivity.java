@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Staff;
 import bsuir.diplom.mercury.entities.User;
 import bsuir.diplom.mercury.entities.enums.Role;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = findViewById(R.id.login_button);
         Button toRegistrationButton = findViewById(R.id.to_registration_button);
 
-        Staff.insertStaffData();
+        Car.initCarList();
         User.insertUserDriversAccounts();
 
         sendCodeButton.setOnClickListener(view -> {
