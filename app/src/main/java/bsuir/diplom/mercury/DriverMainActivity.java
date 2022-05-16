@@ -7,8 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.FirebaseDatabase;
 
 import bsuir.diplom.mercury.adapters.DriverViewPagerAdapter;
+import bsuir.diplom.mercury.entities.Offer;
+import bsuir.diplom.mercury.entities.enums.CarType;
+import bsuir.diplom.mercury.entities.enums.OfferStatus;
 
 public class DriverMainActivity extends AppCompatActivity {
 
@@ -16,6 +20,9 @@ public class DriverMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_main);
+
+        Offer offer = new Offer("1", OfferStatus.IN_PROCESSING, CarType.MEDIUM_WEIGHT, null, "", "", null);
+        FirebaseDatabase.getInstance().getReference("Offers").push().setValue(offer);
 
         ViewPager viewPager = findViewById(R.id.driver_main_view_pager);
         DriverViewPagerAdapter viewPagerAdapter = new DriverViewPagerAdapter(getSupportFragmentManager());
