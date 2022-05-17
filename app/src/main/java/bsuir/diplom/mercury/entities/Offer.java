@@ -11,16 +11,18 @@ public class Offer {
     private Car chosenCar;
     private AddressDTO addressFrom;
     private AddressDTO addressTo;
+    private List<Staff> staffList;
     private List<Item> itemList;
     //private User user;
     //private Long date;
 
-    public Offer(String offerId, OfferStatus offerStatus, Car chosenCar, AddressDTO addressFrom, AddressDTO addressTo, List<Item> itemList) {
+    public Offer(String offerId, OfferStatus offerStatus, Car chosenCar, AddressDTO addressFrom, AddressDTO addressTo, List<Staff> staffList, List<Item> itemList) {
         this.offerId = offerId;
         this.offerStatus = offerStatus;
         this.chosenCar = chosenCar;
         this.addressFrom = addressFrom;
         this.addressTo = addressTo;
+        this.staffList = staffList;
         this.itemList = itemList;
     }
 
@@ -67,6 +69,14 @@ public class Offer {
         this.itemList = itemList;
     }
 
+    public List<Staff> getStaffList() {
+        return staffList;
+    }
+
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList = staffList;
+    }
+
     public Car getChosenCar() {
         return chosenCar;
     }
@@ -83,6 +93,7 @@ public class Offer {
                 ", chosenCar=" + chosenCar +
                 ", addressFrom='" + addressFrom + '\'' +
                 ", addressTo='" + addressTo + '\'' +
+                ", staffList='" + staffList + '\'' +
                 ", itemList=" + itemList +
                 '}';
     }

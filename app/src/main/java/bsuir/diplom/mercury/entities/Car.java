@@ -1,5 +1,7 @@
 package bsuir.diplom.mercury.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,7 +22,7 @@ import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.enums.CarType;
 import bsuir.diplom.mercury.entities.enums.Role;
 
-public class Car {
+public class Car implements Parcelable {
     private Integer carId;
     private String carName;
     private CarType carType;
@@ -47,6 +49,28 @@ public class Car {
 
     public Car() {
     }
+
+    protected Car(Parcel in) {
+        if (in.readByte() == 0) {
+            carId = null;
+        } else {
+            carId = in.readInt();
+        }
+        carName = in.readString();
+        staffList = in.createTypedArrayList(Staff.CREATOR);
+    }
+
+    public static final Creator<Car> CREATOR = new Creator<Car>() {
+        @Override
+        public Car createFromParcel(Parcel in) {
+            return new Car(in);
+        }
+
+        @Override
+        public Car[] newArray(int size) {
+            return new Car[size];
+        }
+    };
 
     public static void initCarList() {
         DatabaseReference staffReference = FirebaseDatabase.getInstance().getReference("Cars");
@@ -102,5 +126,32 @@ public class Car {
 
     public void setStaffList(List<Staff> staffList) {
         this.staffList = staffList;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", carName='" + carName + '\'' +
+                ", carType=" + carType +
+                ", staffList=" + staffList +
+                '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (carId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(carId);
+        }
+        parcel.writeString(carName);
+        parcel.writeTypedList(staffList);
     }
 }

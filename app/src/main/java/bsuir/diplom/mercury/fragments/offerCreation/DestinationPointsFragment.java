@@ -17,9 +17,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.adapters.AddressSuggestAdapter;
+import bsuir.diplom.mercury.entities.Staff;
 import bsuir.diplom.mercury.entities.dto.AddressDTO;
 import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Item;
@@ -33,8 +35,10 @@ public class DestinationPointsFragment extends Fragment implements ViewPagerFrag
     private final ArrayList<Item> currentItemsList = new ArrayList<>();
     private Address fromAddress;
     private Address toAddress;
+    private Car car;
+    private List<Staff> selectedStaffList;
 
-    private DatabaseReference offersReference = FirebaseDatabase.getInstance().getReference("Offers");
+    private final DatabaseReference offersReference = FirebaseDatabase.getInstance().getReference("Offers");
 
     public static DestinationPointsFragment getInstance() {
         if (instance == null) {
@@ -68,9 +72,9 @@ public class DestinationPointsFragment extends Fragment implements ViewPagerFrag
                 return;
             }
 
-            Offer offer = new Offer("", OfferStatus.IN_PROCESSING, Car.carList.get(0), new AddressDTO(fromAddress), new AddressDTO(toAddress), currentItemsList);
+            Offer offer = new Offer("", OfferStatus.IN_PROCESSING, car, new AddressDTO(fromAddress), new AddressDTO(toAddress), selectedStaffList, currentItemsList);
             offersReference.push().setValue(offer);
-            Log.d("Create Offer", "Offer created successfully: " + offer.toString());
+            Log.d(Constants.OFFER_CREATION.getMessage(), "Offer created successfully: " + offer.toString());
         });
 
         return view;
@@ -81,6 +85,13 @@ public class DestinationPointsFragment extends Fragment implements ViewPagerFrag
             currentItemsList.clear();
             currentItemsList.addAll(bundle.getParcelableArrayList(Constants.CURRENT_ITEMS_LIST.getMessage()));
             Log.d(Constants.CURRENT_ITEMS_LIST.getMessage(), currentItemsList.toString());
+        });
+        getParentFragmentManager().setFragmentResultListener(Constants.PERSONAL_INFO_REQUEST_KEY.getMessage(), this, (requestKey, bundle) -> {
+            car = bundle.getParcelable(Constants.SELECTED_CAR.getMessage());
+            Log.d(Constants.SELECTED_CAR.getMessage(), car.toString());
+
+            selectedStaffList = new ArrayList<>(bundle.getParcelableArrayList(Constants.CURRENT_STAFF_LIST.getMessage()));
+            Log.d(Constants.CURRENT_STAFF_LIST.getMessage(), car.toString());
         });
     }
 

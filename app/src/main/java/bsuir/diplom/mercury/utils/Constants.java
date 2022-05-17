@@ -8,6 +8,7 @@ public enum Constants {
     EDITABLE_ITEM_POSITION_REQUEST_KEY("editableItemPositionRequestKey"),
     CHANGE_VIEW_PAGER_SELECTED_PAGE_REQUEST_KEY("changeViewPagerSelectedPageRequestKey"),
     CURRENT_ITEM_LIST_REQUEST_KEY("currentItemListRequestKey"),
+    PERSONAL_INFO_REQUEST_KEY("personalInfoRequestKey"),
 
     /*Bundle transfer data tags*/
     IS_ALLOWED_NEXT("isAllowedNext"),
@@ -16,9 +17,12 @@ public enum Constants {
     EDITABLE_ITEM_POSITION("editableItemPosition"),
     SET_PREVIOUS_PAGE("setPreviousPage"),
     SET_NEXT_PAGE("setNextPage"),
+    SELECTED_CAR("selectedCar"),
+    CURRENT_STAFF_LIST("currentStaffList"),
 
     /*Logging tags*/
-    ITEM_LIST_CHANGE_LOGGING("itemListChangeLogging");
+    ITEM_LIST_CHANGE_LOGGING("itemListChangeLogging"),
+    OFFER_CREATION("Offer creation");
 
     private final String message;
 

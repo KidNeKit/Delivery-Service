@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -26,11 +27,13 @@ import bsuir.diplom.mercury.entities.Staff;
 import bsuir.diplom.mercury.entities.enums.CarType;
 import bsuir.diplom.mercury.entities.enums.Role;
 import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
+import bsuir.diplom.mercury.utils.CarHelper;
+import bsuir.diplom.mercury.utils.Constants;
 
 public class PersonalChoosingFragment extends Fragment implements ViewPagerFragmentLifecycle {
     private static PersonalChoosingFragment instance;
     private RadioButton lightWeightCarButton;
-    private final List<Staff> staffList = new ArrayList<>();
+    private final ArrayList<Staff> staffList = new ArrayList<>();
     private SeekBar loaderSeekBar;
     private StaffRecyclerViewAdapter adapter;
     private CarType selectedCar;
@@ -106,6 +109,12 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
     @Override
     public void onPauseFragment(FragmentManager parentFragmentManager) {
         Log.d("lifecycle", "onPause for PersonalChoosingFragment");
+        if (selectedCar != null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList(Constants.CURRENT_STAFF_LIST.getMessage(), staffList);
+            bundle.putParcelable(Constants.SELECTED_CAR.getMessage(), CarHelper.getCarByCarType(selectedCar));
+            parentFragmentManager.setFragmentResult(Constants.PERSONAL_INFO_REQUEST_KEY.getMessage(), bundle);
+        }
     }
 
     @Override
