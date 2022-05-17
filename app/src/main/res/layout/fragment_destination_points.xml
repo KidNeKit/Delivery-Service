@@ -7,13 +7,46 @@
     tools:context=".fragments.offerCreation.DestinationPointsFragment">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выберите точку отправления"/>
+        android:text="@string/select_start_point"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/from_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/start_point"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="5dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выберите точку доставки"/>
+        android:text="@string/select_end_point"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"/>
+
+    <AutoCompleteTextView
+        android:id="@+id/to_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/end_point"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="5dp"/>
+
+    <com.yandex.mapkit.mapview.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="30dp"/>
 
 </LinearLayout>

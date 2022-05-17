@@ -20,4 +20,9 @@
     <string name="completed">Выполнены</string>
     <string name="in_processing">Обрабатываются</string>
     <string name="in_progress">Доставляются</string>
+
+    <string name="select_start_point">Выберите точку отправления</string>
+    <string name="start_point">Точка отправления</string>
+    <string name="select_end_point">Выберите точку доставки</string>
+    <string name="end_point">Точка доставки</string>
 </resources>
