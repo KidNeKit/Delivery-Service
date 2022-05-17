@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerificationActivity">
+
+    <com.chaos.view.PinView
+        android:id="@+id/pin_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        app:itemCount="6"
+        app:itemWidth="50dp"
+        app:itemHeight="50dp"
+        android:gravity="center_horizontal"
+        app:lineColor="@color/black"
+        app:lineWidth="1dp"
+        style="@style/PinWidget.PinView"
+        android:inputType="number"
+        android:cursorVisible="true"
+        app:cursorColor="@color/black"
+        app:hideLineWhenFilled="true"
+        app:itemRadius="5dp"/>
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="#000"
+        android:text="GO"
+        android:textColor="#fff"
+        android:layout_below="@id/pin_view"
+        android:layout_marginHorizontal="30dp"/>
+
+</RelativeLayout>

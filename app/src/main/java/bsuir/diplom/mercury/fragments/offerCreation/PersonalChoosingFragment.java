@@ -9,17 +9,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,9 +21,10 @@ import java.util.stream.Collectors;
 
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.adapters.StaffRecyclerViewAdapter;
+import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Staff;
-import bsuir.diplom.mercury.entities.enums.Car;
-import bsuir.diplom.mercury.entities.enums.Profession;
+import bsuir.diplom.mercury.entities.enums.CarType;
+import bsuir.diplom.mercury.entities.enums.Role;
 import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
 
 public class PersonalChoosingFragment extends Fragment implements ViewPagerFragmentLifecycle {
@@ -39,10 +33,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
     private final List<Staff> staffList = new ArrayList<>();
     private SeekBar loaderSeekBar;
     private StaffRecyclerViewAdapter adapter;
-    private Car selectedCar;
-
-    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference referenceStaff = database.getReference("Staff");
+    private CarType selectedCar;
 
     public static PersonalChoosingFragment getInstance() {
         if (instance == null) {
@@ -57,7 +48,7 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if (fromUser) {
                 staffList.removeAll(staffList.stream()
-                        .filter(staff -> Profession.LOADER.equals(staff.getProfession()))
+                        .filter(staff -> Role.LOADER.equals(staff.getProfession()))
                         .collect(Collectors.toList()));
                 if (selectedCar != null) {
                     loadLoadersForSelectedCar();
@@ -88,11 +79,15 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
 
         loaderSeekBar.setOnSeekBarChangeListener(onSeekBarChangeListener);
         carSelectionRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
-            selectedCar = lightWeightCarButton.getId() == checkedId ? Car.LIGHT_WEIGHT : Car.MEDIUM_WEIGHT;
+            selectedCar = lightWeightCarButton.getId() == checkedId ? CarType.LIGHT_WEIGHT : CarType.MEDIUM_WEIGHT;
 
-            int loadersCount = (int) Staff.staffInitList.stream()
-                    .filter(staff -> selectedCar.equals(staff.getCar()) && Profession.LOADER.equals(staff.getProfession()))
-                    .count();
+            int loadersCount = Car.carList.stream()
+                    .filter(car -> car.getCarId().equals(selectedCar.getCarId()))
+                    .map(car -> car.getStaffList().stream()
+                            .filter(staff -> staff.getProfession().equals(Role.LOADER))
+                            .collect(Collectors.toList()))
+                    .findFirst().get().size();
+
             loaderSeekBar.setMax(loadersCount);
 
             staffList.clear();
@@ -119,46 +114,24 @@ public class PersonalChoosingFragment extends Fragment implements ViewPagerFragm
     }
 
     private void loadDriverForSelectedCar() {
-        referenceStaff.orderByChild("profession").equalTo(Profession.DRIVER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    Staff staff = snap.getValue(Staff.class);
-                    if (selectedCar.equals(staff.getCar())) {
-                        staffList.add(staff);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("PersonalChoosingFragment", error.getMessage());
-            }
-        });
+        Car.carList.stream()
+                .filter(car -> car.getCarId().equals(selectedCar.getCarId()))
+                .map(car -> car.getStaffList().stream()
+                        .filter(staff -> staff.getProfession().equals(Role.DRIVER))
+                        .collect(Collectors.toList()))
+                .forEach(staffList::addAll);
+        adapter.notifyDataSetChanged();
     }
 
     private void loadLoadersForSelectedCar() {
-        referenceStaff.orderByChild("profession").equalTo(Profession.LOADER.toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Staff> loadersList = new ArrayList<>();
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    Staff staff = snap.getValue(Staff.class);
-                    loadersList.add(staff);
-                }
-                staffList.addAll(loadersList.stream()
-                        .filter(staff -> selectedCar.equals(staff.getCar()))
+        Car.carList.stream()
+                .filter(car -> car.getCarId().equals(selectedCar.getCarId()))
+                .map(car -> car.getStaffList().stream()
+                        .filter(staff -> staff.getProfession().equals(Role.LOADER))
                         .sorted(Comparator.comparingDouble(Staff::getRating).reversed())
                         .limit(loaderSeekBar.getProgress())
-                        .collect(Collectors.toList()));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("PersonalChoosingFragment", error.getMessage());
-            }
-        });
+                        .collect(Collectors.toList()))
+                .forEach(staffList::addAll);
+        adapter.notifyDataSetChanged();
     }
 }

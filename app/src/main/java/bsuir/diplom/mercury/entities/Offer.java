@@ -1,118 +1,100 @@
 package bsuir.diplom.mercury.entities;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.util.List;
 
+import bsuir.diplom.mercury.entities.enums.CarType;
 import bsuir.diplom.mercury.entities.enums.OfferStatus;
 
 public class Offer {
-    private String id;
-    private String name;
-    private Double length;
-    private Double width;
-    private Double height;
-    private Double weight;
+    private String offerId;
     private OfferStatus offerStatus;
-    private Long date;
+    private CarType chosenCarType;
+    private Car chosenCar;
     private String addressFrom;
     private String addressTo;
+    private List<Item> itemList;
+    //private User user;
+    //private Long date;
+
+    public Offer(String offerId, OfferStatus offerStatus, CarType chosenCarType, Car chosenCar, String addressFrom, String addressTo, List<Item> itemList) {
+        this.offerId = offerId;
+        this.offerStatus = offerStatus;
+        this.chosenCarType = chosenCarType;
+        this.chosenCar = chosenCar;
+        this.addressFrom = addressFrom;
+        this.addressTo = addressTo;
+        this.itemList = itemList;
+    }
 
     public Offer() {
     }
 
-    public Offer(String name, OfferStatus offerStatus) {
-        this.name = name;
-        this.offerStatus = offerStatus;
+    public String getOfferId() {
+        return offerId;
     }
 
-    public Offer(String id, String name, Double length, Double width, Double height, Double weight, OfferStatus offerStatus) {
-        this.id = id;
-        this.name = name;
-        this.length = length;
-        this.width = width;
-        this.height = height;
-        this.weight = weight;
-        this.offerStatus = offerStatus;
-        //this.date = date;
-    }
-
-    public Offer(String name, Double length, Double width, Double height, Double weight, OfferStatus offerStatus) {
-        this.name = name;
-        this.length = length;
-        this.width = width;
-        this.height = height;
-        this.weight = weight;
-        this.offerStatus = offerStatus;
-        //this.date = date;
-    }
-
-    public Offer(Item item) {
-        this.name = item.getName();
-        this.length = item.getLength();
-        this.width = item.getWidth();
-        this.height = item.getHeight();
-        this.weight = item.getWeight();
-        this.offerStatus = OfferStatus.IN_PROCESSING;
-        this.date = new Date().getTime();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getLength() {
-        return length;
-    }
-
-    public Double getWidth() {
-        return width;
-    }
-
-    public Double getHeight() {
-        return height;
-    }
-
-    public Double getWeight() {
-        return weight;
+    public void setOfferId(String offerId) {
+        this.offerId = offerId;
     }
 
     public OfferStatus getOfferStatus() {
         return offerStatus;
     }
 
-    public Long getDate() {
-        return date;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setOfferStatus(OfferStatus offerStatus) {
+        this.offerStatus = offerStatus;
     }
 
     public String getAddressFrom() {
         return addressFrom;
     }
 
+    public void setAddressFrom(String addressFrom) {
+        this.addressFrom = addressFrom;
+    }
+
     public String getAddressTo() {
         return addressTo;
+    }
+
+    public void setAddressTo(String addressTo) {
+        this.addressTo = addressTo;
+    }
+
+    public List<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(List<Item> itemList) {
+        this.itemList = itemList;
+    }
+
+    public CarType getChosenCarType() {
+        return chosenCarType;
+    }
+
+    public void setChosenCarType(CarType chosenCarType) {
+        this.chosenCarType = chosenCarType;
+    }
+
+    public Car getChosenCar() {
+        return chosenCar;
+    }
+
+    public void setChosenCar(Car chosenCar) {
+        this.chosenCar = chosenCar;
     }
 
     @Override
     public String toString() {
         return "Offer{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", length=" + length +
-                ", width=" + width +
-                ", height=" + height +
-                ", weight=" + weight +
+                "offerId='" + offerId + '\'' +
                 ", offerStatus=" + offerStatus +
-                ", date=" + new Timestamp(date) +
-                ", addressFrom=" + addressFrom +
-                ", addressTo=" + addressTo +
+                ", chosenCarType=" + chosenCarType +
+                ", chosenCar=" + chosenCar +
+                ", addressFrom='" + addressFrom + '\'' +
+                ", addressTo='" + addressTo + '\'' +
+                ", itemList=" + itemList +
                 '}';
     }
 }

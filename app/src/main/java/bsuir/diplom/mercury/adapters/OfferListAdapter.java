@@ -36,7 +36,7 @@ public class OfferListAdapter extends ArrayAdapter<Offer> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Offer offer = getItem(position);
-        String offerName = offer.getName();
+        //String offerName = offer.get();
         OfferStatus offerStatus = offer.getOfferStatus();
 
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -45,7 +45,7 @@ public class OfferListAdapter extends ArrayAdapter<Offer> {
         TextView nameTextView = convertView.findViewById(R.id.offer_name);
         TextView offerStatusTextView = convertView.findViewById(R.id.offer_status);
 
-        nameTextView.setText(offerName);
+        //nameTextView.setText(offerName);
         offerStatusTextView.setText(offerStatus.getStatus());
 
         switch (offerStatusListValue) {
