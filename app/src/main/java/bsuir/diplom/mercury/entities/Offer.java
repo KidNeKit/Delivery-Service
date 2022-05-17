@@ -2,27 +2,27 @@ package bsuir.diplom.mercury.entities;
 
 import java.util.List;
 
-import bsuir.diplom.mercury.entities.enums.CarType;
+import bsuir.diplom.mercury.entities.dto.AddressDTO;
 import bsuir.diplom.mercury.entities.enums.OfferStatus;
 
 public class Offer {
     private String offerId;
     private OfferStatus offerStatus;
-    private CarType chosenCarType;
     private Car chosenCar;
-    private String addressFrom;
-    private String addressTo;
+    private AddressDTO addressFrom;
+    private AddressDTO addressTo;
+    private List<Staff> staffList;
     private List<Item> itemList;
     //private User user;
     //private Long date;
 
-    public Offer(String offerId, OfferStatus offerStatus, CarType chosenCarType, Car chosenCar, String addressFrom, String addressTo, List<Item> itemList) {
+    public Offer(String offerId, OfferStatus offerStatus, Car chosenCar, AddressDTO addressFrom, AddressDTO addressTo, List<Staff> staffList, List<Item> itemList) {
         this.offerId = offerId;
         this.offerStatus = offerStatus;
-        this.chosenCarType = chosenCarType;
         this.chosenCar = chosenCar;
         this.addressFrom = addressFrom;
         this.addressTo = addressTo;
+        this.staffList = staffList;
         this.itemList = itemList;
     }
 
@@ -45,19 +45,19 @@ public class Offer {
         this.offerStatus = offerStatus;
     }
 
-    public String getAddressFrom() {
+    public AddressDTO getAddressFrom() {
         return addressFrom;
     }
 
-    public void setAddressFrom(String addressFrom) {
+    public void setAddressFrom(AddressDTO addressFrom) {
         this.addressFrom = addressFrom;
     }
 
-    public String getAddressTo() {
+    public AddressDTO getAddressTo() {
         return addressTo;
     }
 
-    public void setAddressTo(String addressTo) {
+    public void setAddressTo(AddressDTO addressTo) {
         this.addressTo = addressTo;
     }
 
@@ -69,12 +69,12 @@ public class Offer {
         this.itemList = itemList;
     }
 
-    public CarType getChosenCarType() {
-        return chosenCarType;
+    public List<Staff> getStaffList() {
+        return staffList;
     }
 
-    public void setChosenCarType(CarType chosenCarType) {
-        this.chosenCarType = chosenCarType;
+    public void setStaffList(List<Staff> staffList) {
+        this.staffList = staffList;
     }
 
     public Car getChosenCar() {
@@ -90,10 +90,10 @@ public class Offer {
         return "Offer{" +
                 "offerId='" + offerId + '\'' +
                 ", offerStatus=" + offerStatus +
-                ", chosenCarType=" + chosenCarType +
                 ", chosenCar=" + chosenCar +
                 ", addressFrom='" + addressFrom + '\'' +
                 ", addressTo='" + addressTo + '\'' +
+                ", staffList='" + staffList + '\'' +
                 ", itemList=" + itemList +
                 '}';
     }

@@ -43,8 +43,8 @@ public class DriverOfferListAdapter extends ArrayAdapter<Offer> {
         //int itemQuantity = offer.getItemList().size();
         //itemQuantityTextView.setText("Количество перевозимых предметов: " + itemQuantity);
         itemQuantityTextView.setText("Количество предметов: 4");
-        destinationFromTextView.setText(offer.getAddressTo());
-        destinationToTextView.setText(offer.getAddressFrom());
+        //destinationFromTextView.setText(offer.getAddressTo());
+        //destinationToTextView.setText(offer.getAddressFrom());
         expectedTimeTextView.setText(" 15 минут");
 
         return convertView;
