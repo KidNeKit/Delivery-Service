@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import bsuir.diplom.mercury.adapters.ViewPagerAdapter;
+import bsuir.diplom.mercury.entities.Car;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -15,6 +16,8 @@ public class MainPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        Car.initCarList();
 
         ViewPager viewPager = findViewById(R.id.main_view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
