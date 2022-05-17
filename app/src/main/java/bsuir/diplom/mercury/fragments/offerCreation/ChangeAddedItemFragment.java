@@ -49,6 +49,9 @@ public class ChangeAddedItemFragment extends Fragment implements ViewPagerFragme
     @Override
     public void onPauseFragment(FragmentManager parentFragmentManager) {
         Log.d("lifecycle", "onPause for ChangeAddedItemFragment");
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.CURRENT_ITEMS_LIST.getMessage(), currentItemsList);
+        parentFragmentManager.setFragmentResult(Constants.CURRENT_ITEM_LIST_REQUEST_KEY.getMessage(), bundle);
     }
 
     @Override

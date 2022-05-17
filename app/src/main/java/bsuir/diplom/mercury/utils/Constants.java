@@ -7,6 +7,7 @@ public enum Constants {
     VIEWPAGER_FRAGMENTS_DATA_TRANSFER_REQUEST_KEY("viewpagerFragmentDataTransferRequestKey"),
     EDITABLE_ITEM_POSITION_REQUEST_KEY("editableItemPositionRequestKey"),
     CHANGE_VIEW_PAGER_SELECTED_PAGE_REQUEST_KEY("changeViewPagerSelectedPageRequestKey"),
+    CURRENT_ITEM_LIST_REQUEST_KEY("currentItemListRequestKey"),
 
     /*Bundle transfer data tags*/
     IS_ALLOWED_NEXT("isAllowedNext"),
