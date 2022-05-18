@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +45,8 @@ public class DriverOfferListAdapter extends ArrayAdapter<Offer> {
         AddressDTO fromAddress = offer.getAddressFrom();
         AddressDTO toAddress = offer.getAddressTo();
 
-        String fullFromAddress = fromAddress.getStreet() + " " + fromAddress.getHouse() + ", " + fromAddress.getCity();
-        String fullToAddress = toAddress.getStreet() + " " + toAddress.getHouse() + ", " + toAddress.getCity();
+        String fullFromAddress = fromAddress.getStreet() + " " + fromAddress.getHouse();
+        String fullToAddress = toAddress.getStreet() + " " + toAddress.getHouse();
 
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView = inflater.inflate(resource, parent, false);
@@ -55,13 +54,11 @@ public class DriverOfferListAdapter extends ArrayAdapter<Offer> {
         TextView itemQuantityTextView = convertView.findViewById(R.id.offer_short_quantity);
         TextView destinationFromTextView = convertView.findViewById(R.id.offer_short_from);
         TextView destinationToTextView = convertView.findViewById(R.id.offer_short_to);
-        TextView expectedTimeTextView = convertView.findViewById(R.id.offer_short_time);
         ImageView infoButton = convertView.findViewById(R.id.offer_short_info_button);
 
         itemQuantityTextView.setText("Количество предметов: " + offer.getItemList().size());
         destinationFromTextView.setText(fullFromAddress);
         destinationToTextView.setText(fullToAddress);
-        expectedTimeTextView.setText("15 минут");
 
         infoButton.setOnClickListener(view -> {
             Dialog dialog = new Dialog(context);
