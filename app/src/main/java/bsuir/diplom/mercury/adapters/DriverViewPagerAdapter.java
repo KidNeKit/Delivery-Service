@@ -40,7 +40,7 @@ public class DriverViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return "Карта";
             case 1:
-                return "Текущие заказы";
+                return  "Заказы";
         }
         return null;
     }

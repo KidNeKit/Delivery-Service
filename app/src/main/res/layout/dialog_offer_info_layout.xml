@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginHorizontal="50dp"
+    android:background="@drawable/border_radius_shape">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/new_order_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Новый заказ"
+            android:gravity="center_horizontal"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/start_point_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Точка отправления"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:layout_below="@id/new_order_title"/>
+
+        <TextView
+            android:id="@+id/start_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:hint="Точка отправление"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/start_point_title"/>
+
+        <TextView
+            android:id="@+id/end_point_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Точка доставки"
+            android:textSize="18sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:layout_below="@id/start_point"/>
+
+        <TextView
+            android:id="@+id/end_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:hint="Точка доставки"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/end_point_title" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <Button
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Подтвердить"
+            android:background="#4CAF50"
+            android:layout_marginEnd="10dp"/>
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Закрыть"
+            android:background="#F44336"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+</LinearLayout>

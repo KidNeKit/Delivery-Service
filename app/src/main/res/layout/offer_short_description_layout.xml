@@ -26,35 +26,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/offer_short_quantity"
-            android:textColor="@color/purple_200"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="5dp"
             android:hint="from"/>
+
+        <ImageView
+            android:id="@+id/arrow_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            android:layout_toEndOf="@id/offer_short_from"
+            android:layout_alignBottom="@id/offer_short_from"
+            android:layout_alignTop="@id/offer_short_from"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/offer_short_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/offer_short_quantity"
-            android:layout_toEndOf="@id/offer_short_from"
-            android:textColor="@color/purple_200"
+            android:layout_toEndOf="@id/arrow_image_view"
+            android:layout_alignBottom="@id/offer_short_from"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="5dp"
             android:hint="to"/>
-
-        <TextView
-            android:id="@+id/offer_short_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/offer_short_quantity"
-            android:layout_alignParentEnd="true"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:layout_marginTop="5dp"
-            android:layout_marginHorizontal="10dp"
-            android:hint="Oriented time"/>
     </RelativeLayout>
 
     <ImageView
