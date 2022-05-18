@@ -25,6 +25,7 @@ import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.adapters.DriverOfferListAdapter;
 import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Offer;
+import bsuir.diplom.mercury.entities.enums.OfferStatus;
 import bsuir.diplom.mercury.utils.CarHelper;
 
 public class CurrentOffersFragment extends Fragment {
@@ -43,13 +44,14 @@ public class CurrentOffersFragment extends Fragment {
 
         Car car = CarHelper.getCarByDriverPhoneNumber(authUser.getPhoneNumber());
 
-        offersReference.addValueEventListener(new ValueEventListener() {
+        offersReference.orderByChild("offerStatus").equalTo(String.valueOf(OfferStatus.IN_PROCESSING)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 newOffersList.clear();
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     Offer offer = snap.getValue(Offer.class);
-                    if (offer.getChosenCar() == null) {
+                    if (car.getCarId().equals(offer.getChosenCar().getCarId())) {
+                        offer.setOfferId(snap.getKey());
                         newOffersList.add(offer);
                     }
                 }
