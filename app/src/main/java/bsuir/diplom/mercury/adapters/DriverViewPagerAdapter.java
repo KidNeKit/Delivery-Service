@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import bsuir.diplom.mercury.fragments.MapFragment;
 import bsuir.diplom.mercury.fragments.driverSide.CurrentOffersFragment;
+import bsuir.diplom.mercury.fragments.driverSide.DriverNavigationFragment;
 
 public class DriverViewPagerAdapter extends FragmentPagerAdapter {
 
@@ -20,7 +21,7 @@ public class DriverViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new MapFragment();
+                return new DriverNavigationFragment();
             case 1:
                 return new CurrentOffersFragment();
         }

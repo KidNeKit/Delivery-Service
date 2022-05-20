@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bsuir.diplom.mercury.BuildConfig;
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.enums.CarType;
 import bsuir.diplom.mercury.entities.enums.Role;
@@ -34,7 +33,7 @@ public class Car implements Parcelable {
                     new Staff(2, "Роман", "Мосевич", "", Role.LOADER, R.mipmap.ic_launcher, 0, 0, 0.0)
             )),
             new Car(2, "Hyundai Mighty", CarType.MEDIUM_WEIGHT, Arrays.asList(
-                    new Staff(1, "Никита", "Меньшиков", BuildConfig.DRIVER_PHONE_NUMBER, Role.LOADER, R.mipmap.ic_launcher, 0, 0, 0.0),
+                    new Staff(1, "Никита", "Меньшиков", "+375336391457", Role.LOADER, R.mipmap.ic_launcher, 0, 0, 0.0),
                     new Staff(2, "Алексей", "Дубаневич", "", Role.LOADER, R.mipmap.alexey, 0, 0, 0.0),
                     new Staff(3, "Иван", "Моисеенко", "", Role.DRIVER, R.mipmap.ic_launcher, 0, 0, 0.0)
             ))
