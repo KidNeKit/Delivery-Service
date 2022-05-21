@@ -12,6 +12,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineListener;
 import com.mapbox.android.core.location.LocationEnginePriority;
@@ -34,15 +40,24 @@ import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
+import com.mapbox.turf.TurfMeasurement;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bsuir.diplom.mercury.R;
+import bsuir.diplom.mercury.entities.Car;
+import bsuir.diplom.mercury.entities.Offer;
+import bsuir.diplom.mercury.entities.dto.AddressDTO;
+import bsuir.diplom.mercury.entities.enums.OfferStatus;
+import bsuir.diplom.mercury.utils.CarHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DriverNavigationFragment extends Fragment implements OnMapReadyCallback, PermissionsListener, LocationEngineListener, MapboxMap.OnMapClickListener {
+public class DriverNavigationFragment extends Fragment implements OnMapReadyCallback, PermissionsListener, LocationEngineListener {
     private MapView mapView;
     private MapboxMap map;
     private PermissionsManager permissionsManager;
@@ -55,6 +70,8 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
     private Button startButton;
     private NavigationMapRoute navigationMapRoute;
 
+    private final DatabaseReference offersReference = FirebaseDatabase.getInstance().getReference("Offers");
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,7 +80,65 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
 
         mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
+
         mapView.getMapAsync(this);
+        offersReference.orderByChild("offerStatus").equalTo(OfferStatus.IN_PROGRESS.toString()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Offer> offerList = new ArrayList<>();
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Offer offer = snap.getValue(Offer.class);
+                    offer.setOfferId(snap.getKey());
+                    Car currentCar = CarHelper.getCarByDriverPhoneNumber(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
+                    if (offer.getChosenCar().getCarId().equals(currentCar.getCarId())) {
+                        offerList.add(offer);
+                        Log.d("OfferList", offer.toString());
+                    }
+                }
+
+                Map<AddressDTO, Map<AddressDTO, Double>> vtDistances = new HashMap<>();
+                List<AddressDTO> addressDTOS = new ArrayList<>();
+                offerList.forEach(offer -> {
+                    addressDTOS.add(offer.getAddressFrom());
+                    addressDTOS.add(offer.getAddressTo());
+                });
+                addressDTOS.forEach(addressDTO -> {
+                    List<AddressDTO> addressesCopy = new ArrayList<>(addressDTOS);
+                    addressesCopy.remove(addressDTO);
+                    Map<AddressDTO, Double> distancesFromPoint = new HashMap<>();
+                    addressesCopy.forEach(otherAddress -> {
+                        Point originPoint = Point.fromLngLat(addressDTO.getLongitude(), addressDTO.getLatitude());
+                        Point destinationPoint = Point.fromLngLat(otherAddress.getLongitude(), otherAddress.getLatitude());
+                        Double distance = TurfMeasurement.distance(originPoint, destinationPoint);
+                        distancesFromPoint.put(otherAddress, distance);
+                    });
+                    vtDistances.put(addressDTO, distancesFromPoint);
+                });
+
+                Log.d("Result", String.valueOf(vtDistances));
+
+                /*Offer firstOffer = offerList.get(0);
+                Point originPoint = Point.fromLngLat(firstOffer.getAddressFrom().getLongitude(), firstOffer.getAddressFrom().getLatitude());
+                Point destinationPoint = Point.fromLngLat(firstOffer.getAddressTo().getLongitude(), firstOffer.getAddressTo().getLatitude());
+
+                Offer secondOffer = offerList.get(1);
+                Point origSecPoint = Point.fromLngLat(secondOffer.getAddressFrom().getLongitude(), secondOffer.getAddressFrom().getLatitude());
+                Point destSecPoint = Point.fromLngLat(secondOffer.getAddressTo().getLongitude(), secondOffer.getAddressTo().getLatitude());
+
+                map.addMarker(new MarkerOptions().position(new LatLng(origSecPoint.latitude(), origSecPoint.longitude())));
+                map.addMarker(new MarkerOptions().position(new LatLng(destSecPoint.latitude(), destSecPoint.longitude())));
+
+                getRoute(originPoint, destinationPoint);
+                getRoute(origSecPoint, destSecPoint);
+                double distance = TurfMeasurement.distance(originPoint, destinationPoint);
+                Log.d("Distance", String.valueOf(distance));*/
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         return view;
     }
@@ -71,13 +146,13 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         map = mapboxMap;
-        map.addOnMapClickListener(this);
+        //map.addOnMapClickListener(this);
         enableLocation();
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
     }
 
-    @Override
+/*    @Override
     public void onMapClick(@NonNull LatLng point) {
         if (destinationMarker != null) {
             map.removeMarker(destinationMarker);
@@ -88,7 +163,7 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
         originPoint = Point.fromLngLat(originLocation.getLongitude(), originLocation.getLatitude());
 
         getRoute(originPoint, destinationPoint);
-    }
+    }*/
 
     private void getRoute(Point origin, Point destination) {
         NavigationRoute.builder()

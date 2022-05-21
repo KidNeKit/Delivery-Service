@@ -39,3 +39,4 @@ output.json
 #NDK
 obj/
 /app/google-services.json
+/app/src/main/res/values/local_strings.xml
