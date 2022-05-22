@@ -38,11 +38,14 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.CameraMode;
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncher;
+import com.mapbox.services.android.navigation.ui.v5.NavigationLauncherOptions;
 import com.mapbox.services.android.navigation.ui.v5.route.NavigationMapRoute;
 import com.mapbox.services.android.navigation.v5.navigation.NavigationRoute;
 import com.mapbox.turf.TurfMeasurement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +53,7 @@ import java.util.Map;
 import bsuir.diplom.mercury.R;
 import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Offer;
+import bsuir.diplom.mercury.entities.TSP;
 import bsuir.diplom.mercury.entities.dto.AddressDTO;
 import bsuir.diplom.mercury.entities.enums.OfferStatus;
 import bsuir.diplom.mercury.utils.CarHelper;
@@ -69,6 +73,7 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
     private Marker destinationMarker;
     private Button startButton;
     private NavigationMapRoute navigationMapRoute;
+    private final List<Point> pointList = new ArrayList<>();
 
     private final DatabaseReference offersReference = FirebaseDatabase.getInstance().getReference("Offers");
 
@@ -80,13 +85,25 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
 
         mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
+        startButton = view.findViewById(R.id.start_button);
+
+        startButton.setOnClickListener(view1 -> {
+            originPoint = pointList.get(0);
+            destinationPoint = pointList.get(1);
+            NavigationLauncherOptions options = NavigationLauncherOptions.builder()
+                    .origin(originPoint)
+                    .destination(destinationPoint)
+                    .shouldSimulateRoute(true)
+                    .build();
+            NavigationLauncher.startNavigation(getActivity(), options);
+        });
 
         mapView.getMapAsync(this);
         offersReference.orderByChild("offerStatus").equalTo(OfferStatus.IN_PROGRESS.toString()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Offer> offerList = new ArrayList<>();
-                for (DataSnapshot snap: snapshot.getChildren()) {
+                for (DataSnapshot snap : snapshot.getChildren()) {
                     Offer offer = snap.getValue(Offer.class);
                     offer.setOfferId(snap.getKey());
                     Car currentCar = CarHelper.getCarByDriverPhoneNumber(FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber());
@@ -117,21 +134,57 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
 
                 Log.d("Result", String.valueOf(vtDistances));
 
-                /*Offer firstOffer = offerList.get(0);
-                Point originPoint = Point.fromLngLat(firstOffer.getAddressFrom().getLongitude(), firstOffer.getAddressFrom().getLatitude());
-                Point destinationPoint = Point.fromLngLat(firstOffer.getAddressTo().getLongitude(), firstOffer.getAddressTo().getLatitude());
+                TSP tsp = new TSP(vtDistances);
+                AddressDTO[] shortestPathArr = tsp.findShortestPath();
+                List<AddressDTO> shortestPath = new ArrayList<>(Arrays.asList(tsp.findShortestPath()));
+                double distance = tsp.pathDistance(shortestPathArr);
 
-                Offer secondOffer = offerList.get(1);
-                Point origSecPoint = Point.fromLngLat(secondOffer.getAddressFrom().getLongitude(), secondOffer.getAddressFrom().getLatitude());
-                Point destSecPoint = Point.fromLngLat(secondOffer.getAddressTo().getLongitude(), secondOffer.getAddressTo().getLatitude());
+                Log.d("Shortest path", shortestPath.toString());
+                Log.d("distance", distance + "");
 
-                map.addMarker(new MarkerOptions().position(new LatLng(origSecPoint.latitude(), origSecPoint.longitude())));
-                map.addMarker(new MarkerOptions().position(new LatLng(destSecPoint.latitude(), destSecPoint.longitude())));
+                NavigationRoute.Builder builder = NavigationRoute.builder()
+                        .accessToken(Mapbox.getAccessToken());
+                //Point currentLocationPoint = Point.fromLngLat(originLocation.getLongitude(), originLocation.getLatitude());
+                //pointList.add(currentLocationPoint);
+                //builder.addWaypoint(currentLocationPoint);
+                Point origin = Point.fromLngLat(shortestPath.get(0).getLongitude(), shortestPath.get(0).getLatitude());
+                pointList.add(origin);
+                builder.origin(origin);
+                for (int i = 1; i < shortestPath.size() - 2; i++) {
+                    Point wayPoint = Point.fromLngLat(shortestPath.get(i).getLongitude(), shortestPath.get(i).getLatitude());
+                    builder.addWaypoint(wayPoint);
+                    pointList.add(wayPoint);
+                }
+                Point destination = Point.fromLngLat(shortestPath.get(shortestPath.size() - 2).getLongitude(), shortestPath.get(shortestPath.size() - 2).getLatitude());
+                builder.destination(destination)
+                        .build()
+                        .getRoute(new Callback<DirectionsResponse>() {
+                            @Override
+                            public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                                if (response.body() == null) {
+                                    Log.e("MainActivity", "No routes found, check for access token");
+                                } else if (response.body().routes().size() == 0) {
+                                    Log.e("MainActivity", "No routes found");
+                                } else {
+                                    DirectionsRoute currentRoute = response.body().routes().get(0);
 
-                getRoute(originPoint, destinationPoint);
-                getRoute(origSecPoint, destSecPoint);
-                double distance = TurfMeasurement.distance(originPoint, destinationPoint);
-                Log.d("Distance", String.valueOf(distance));*/
+                                    if (navigationMapRoute != null) {
+                                        navigationMapRoute.removeRoute();
+                                    } else {
+                                        navigationMapRoute = new NavigationMapRoute(null, mapView, map);
+                                    }
+                                    navigationMapRoute.addRoute(currentRoute);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+                                Log.e("MainActivity", t.getMessage());
+                            }
+                        });
+
+                //map.addMarker(new MarkerOptions().position(new LatLng(origSecPoint.latitude(), origSecPoint.longitude())));
+                //map.addMarker(new MarkerOptions().position(new LatLng(destSecPoint.latitude(), destSecPoint.longitude())));
             }
 
             @Override
