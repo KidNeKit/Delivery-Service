@@ -2,6 +2,10 @@ package bsuir.diplom.mercury.entities.dto;
 
 import android.location.Address;
 
+import com.mapbox.geojson.Point;
+
+import bsuir.diplom.mercury.entities.enums.PointType;
+
 public class AddressDTO {
     private double latitude;
     private double longitude;
@@ -9,6 +13,7 @@ public class AddressDTO {
     private String house;
     private String city;
     private String country;
+    private PointType pointType;
 
     public AddressDTO() {
     }
@@ -22,13 +27,14 @@ public class AddressDTO {
         this.country = country;
     }
 
-    public AddressDTO(Address address) {
+    public AddressDTO(Address address, PointType pointType) {
         this.latitude = address.getLatitude();
         this.longitude = address.getLongitude();
         this.street = address.getThoroughfare();
         this.house = address.getFeatureName();
         this.city = address.getLocality();
         this.country = address.getCountryName();
+        this.pointType = pointType;
     }
 
     public double getLatitude() {
@@ -45,6 +51,14 @@ public class AddressDTO {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public PointType getPointType() {
+        return pointType;
+    }
+
+    public void setPointType(PointType pointType) {
+        this.pointType = pointType;
     }
 
     public String getStreet() {
@@ -84,6 +98,7 @@ public class AddressDTO {
         return "AddressDTO{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", pointType='" + pointType + '\'' +
                 ", street='" + street + '\'' +
                 ", house='" + house + '\'' +
                 ", city='" + city + '\'' +

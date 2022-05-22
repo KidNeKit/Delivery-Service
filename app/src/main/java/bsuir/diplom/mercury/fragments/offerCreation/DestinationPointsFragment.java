@@ -27,6 +27,7 @@ import bsuir.diplom.mercury.entities.Car;
 import bsuir.diplom.mercury.entities.Item;
 import bsuir.diplom.mercury.entities.Offer;
 import bsuir.diplom.mercury.entities.enums.OfferStatus;
+import bsuir.diplom.mercury.entities.enums.PointType;
 import bsuir.diplom.mercury.interfaces.ViewPagerFragmentLifecycle;
 import bsuir.diplom.mercury.utils.Constants;
 
@@ -72,7 +73,7 @@ public class DestinationPointsFragment extends Fragment implements ViewPagerFrag
                 return;
             }
 
-            Offer offer = new Offer("", OfferStatus.IN_PROCESSING, car, new AddressDTO(fromAddress), new AddressDTO(toAddress), selectedStaffList, currentItemsList);
+            Offer offer = new Offer("", OfferStatus.IN_PROCESSING, car, new AddressDTO(fromAddress, PointType.ORIGIN_POINT), new AddressDTO(toAddress, PointType.DESTINATION_POINT), selectedStaffList, currentItemsList);
             offersReference.push().setValue(offer);
             Log.d(Constants.OFFER_CREATION.getMessage(), "Offer created successfully: " + offer.toString());
         });

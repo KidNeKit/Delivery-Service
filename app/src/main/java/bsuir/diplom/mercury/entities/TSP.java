@@ -42,17 +42,6 @@ public class TSP {
         return permutations;
     }
 
-    /*public int pathDistance(String[] path) {
-        String last = path[0];
-        int distance = 0;
-        for (String next : Arrays.copyOfRange(path, 1, path.length)) {
-            distance += distances.get(last).get(next);
-            // distance to get back from last city to first city
-            last = next;
-        }
-        return distance;
-    }*/
-
     public double pathDistance(AddressDTO[] path) {
         AddressDTO last = path[0];
         double distance = 0;

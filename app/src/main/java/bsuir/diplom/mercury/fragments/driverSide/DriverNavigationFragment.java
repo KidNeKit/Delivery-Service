@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -71,7 +72,6 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
     private Point originPoint;
     private Point destinationPoint;
     private Marker destinationMarker;
-    private Button startButton;
     private NavigationMapRoute navigationMapRoute;
     private final List<Point> pointList = new ArrayList<>();
 
@@ -85,17 +85,36 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
 
         mapView = view.findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
-        startButton = view.findViewById(R.id.start_button);
+        Button startButton = view.findViewById(R.id.start_button);
 
         startButton.setOnClickListener(view1 -> {
-            originPoint = pointList.get(0);
-            destinationPoint = pointList.get(1);
+            if (originPoint == null && destinationPoint == null) {
+                Toast.makeText(getContext(), "Нет активных точек доставки", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             NavigationLauncherOptions options = NavigationLauncherOptions.builder()
                     .origin(originPoint)
                     .destination(destinationPoint)
                     .shouldSimulateRoute(true)
                     .build();
             NavigationLauncher.startNavigation(getActivity(), options);
+
+            pointList.remove(0);
+            if (pointList.size() > 1) {
+                originPoint = pointList.get(0);
+                destinationPoint = pointList.get(1);
+                redrawRouteOnMap();
+            } else if (pointList.size() == 1) {
+                pointList.remove(0);
+                originPoint = null;
+                destinationPoint = null;
+                navigationMapRoute.removeRoute();
+            } else {
+                originPoint = null;
+                destinationPoint = null;
+                navigationMapRoute.removeRoute();
+            }
         });
 
         mapView.getMapAsync(this);
@@ -111,6 +130,10 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
                         offerList.add(offer);
                         Log.d("OfferList", offer.toString());
                     }
+                }
+
+                if (offerList.isEmpty()) {
+                    return;
                 }
 
                 Map<AddressDTO, Map<AddressDTO, Double>> vtDistances = new HashMap<>();
@@ -156,6 +179,7 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
                     pointList.add(wayPoint);
                 }
                 Point destination = Point.fromLngLat(shortestPath.get(shortestPath.size() - 2).getLongitude(), shortestPath.get(shortestPath.size() - 2).getLatitude());
+                pointList.add(destination);
                 builder.destination(destination)
                         .build()
                         .getRoute(new Callback<DirectionsResponse>() {
@@ -183,6 +207,9 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
                             }
                         });
 
+                originPoint = pointList.get(0);
+                destinationPoint = pointList.get(1);
+
                 //map.addMarker(new MarkerOptions().position(new LatLng(origSecPoint.latitude(), origSecPoint.longitude())));
                 //map.addMarker(new MarkerOptions().position(new LatLng(destSecPoint.latitude(), destSecPoint.longitude())));
             }
@@ -203,6 +230,42 @@ public class DriverNavigationFragment extends Fragment implements OnMapReadyCall
         enableLocation();
         map.getUiSettings().setZoomControlsEnabled(true);
         map.getUiSettings().setZoomGesturesEnabled(true);
+    }
+
+    private void redrawRouteOnMap() {
+        NavigationRoute.Builder builder = NavigationRoute.builder()
+                .accessToken(Mapbox.getAccessToken());
+        builder.origin(pointList.get(0));
+        for (int i = 1; i < pointList.size() - 1; i++) {
+            Point wayPoint = pointList.get(i);
+            builder.addWaypoint(wayPoint);
+        }
+        builder.destination(pointList.get(pointList.size() - 1))
+                .build()
+                .getRoute(new Callback<DirectionsResponse>() {
+                    @Override
+                    public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+                        if (response.body() == null) {
+                            Log.e("MainActivity", "No routes found, check for access token");
+                        } else if (response.body().routes().size() == 0) {
+                            Log.e("MainActivity", "No routes found");
+                        } else {
+                            DirectionsRoute currentRoute = response.body().routes().get(0);
+
+                            if (navigationMapRoute != null) {
+                                navigationMapRoute.removeRoute();
+                            } else {
+                                navigationMapRoute = new NavigationMapRoute(null, mapView, map);
+                            }
+                            navigationMapRoute.addRoute(currentRoute);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DirectionsResponse> call, Throwable t) {
+                        Log.e("MainActivity", t.getMessage());
+                    }
+                });
     }
 
 /*    @Override
